@@ -1,0 +1,19 @@
+[project]
+name = "event-based-svcs"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocstrings>=0.29.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.11.2",
+]
+
+[tool.uv.workspace]
+members = ["projects/gui-proj", "projects/cli-proj", "projects/auth-svc", "projects/app-svc", "projects/lib-one", "projects/lib-two"]
