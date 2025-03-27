@@ -1,0 +1,8 @@
+{
+    // ...existing code...
+    "scripts": {
+        // ...existing scripts...
+        "test": "jest",
+        "pytest": "uvicorn app.main:app --reload && pytest --cov=src tests/ && pkill -f uvicorn"
+    }
+}
