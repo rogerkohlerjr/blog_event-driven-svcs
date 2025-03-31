@@ -25,18 +25,8 @@ update_task = None
 
 
 async def consume_shipment_updates():
-    """
-    Continuously consume shipment updates and update the UI.
-
-    This function listens for shipment updates from a Kafka consumer,
-    validates the data, and updates the UI accordingly.
-
-    Raises
-    ------
-    Exception
-        If an error occurs while consuming shipment updates.
-    """
     try:
+        await asyncio.sleep(0)
         for message in consumer:
             event = message.value
             shipment_id = event["shipment_id"]
@@ -221,7 +211,12 @@ def shutdown():
     consumer.close()
     ui.notify("Application shutting down...", type="info")
 
+def start_task(routine):
+    """Start the background task and show a loading spinner."""
+    spinner.visible = True  # Show spinner
+    ui.run_task(routine, on_done=lambda _: spinner.visible = False)
 
+# Register signal handlers for graceful shutdown
 signal.signal(signal.SIGINT, lambda *_: shutdown())
 signal.signal(signal.SIGTERM, lambda *_: shutdown())
 
@@ -244,7 +239,7 @@ figure = go.Figure(data=[], layout=go.Layout(title="Real-Time Shipment Locations
 shipment_map = ui.plotly(figure)
 
 # Start consuming shipment updates in the background
-asyncio.create_task(consume_shipment_updates())
+nTask = start_task(consume_shipment_updates())
 
 logger.info("Application started.")
 
